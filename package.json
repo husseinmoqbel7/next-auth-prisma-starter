@@ -1,18 +1,13 @@
 {
-  "name": "next-auth-starter",
+  "name": "@husseinmoqbel7/next-auth-starter",
   "version": "1.0.0",
   "description": "Next.js starter with authentication and prisma orm",
   "bin": "./bin/cli.js",
-  "files": [
-    "template",
-    "bin"
-  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "create-template": "node ./scripts/create-template.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
