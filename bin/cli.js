@@ -83,59 +83,44 @@ const createTemplate = async () => {
   const repoUrl = "https://github.com/husseinmoqbel7/next-auth-prisma-starter";
   const projectPath = path.join(process.cwd(), projectName);
 
-  const commands = [
-    {
-      command: `git clone ${repoUrl} ${projectName}`,
-      message: "📥 Cloning template repository...",
-    },
-    {
-      command: `cd ${projectName} && npm install`,
-      message: "📦 Installing dependencies...",
-    },
-  ];
-
   console.log("\n🚀 Initializing project setup...\n");
 
-  try {
-    for (const { command, message } of commands) {
-      console.log(message);
-      if (!runCommand(command)) {
-        cleanup(projectPath);
-        process.exit(1);
-      }
-    }
-
-    // Remove CLI folder using rimraf
-    console.log("🗑 Removing CLI folder...");
-    rimraf.sync(path.join(projectPath, "bin"));
-
-    // Remove .git folder based on OS
-    console.log("🗑 Cleaning up Git history...");
-    if (process.platform === "win32") {
-      rimraf.sync(path.join(projectPath, ".git"));
-    } else {
-      runCommand(`cd ${projectName} && rm -rf .git`);
-    }
-
-    // Initialize fresh Git repo
-    console.log("🌱 Initializing fresh Git repository...");
-    runCommand(
-      `cd ${projectName} && git init && git add . && git commit -m "Initial commit"`
-    );
-
-    console.log(`\n✅ Project "${projectName}" created successfully!\n`);
-    console.log("🚀 Next Steps:");
-    console.log(`  1️⃣ cd ${projectName}`);
-    console.log("  2️⃣ Set up your `.env` file");
-    console.log("  3️⃣ Generate an AUTH_SECRET using: `npx auth`");
-    console.log("  4️⃣ Set up your database and update `DATABASE_URL`");
-    console.log("  5️⃣ Run the project with: `npm run dev`");
-    console.log("\n🎉 Happy coding!\n");
-  } catch (error) {
-    console.error("\n❌ An unexpected error occurred:", error);
+  // Clone the repository
+  console.log("📥 Cloning template repository...");
+  if (!runCommand(`git clone ${repoUrl} ${projectName}`)) {
     cleanup(projectPath);
     process.exit(1);
   }
+
+  // Install dependencies
+  console.log("📦 Installing dependencies...");
+  if (!runCommand(`cd ${projectName} && npm install`)) {
+    cleanup(projectPath);
+    process.exit(1);
+  }
+
+  // Remove CLI folder using rimraf
+  console.log("🗑 Removing CLI folder...");
+  rimraf.sync(path.join(projectPath, "bin"));
+
+  // Remove .git folder using rimraf
+  console.log("🗑 Cleaning up Git history...");
+  rimraf.sync(path.join(projectPath, ".git"));
+
+  // Initialize fresh Git repo
+  console.log("🌱 Initializing fresh Git repository...");
+  runCommand(
+    `cd ${projectName} && git init && git add . && git commit -m "Initial commit"`
+  );
+
+  console.log(`\n✅ Project "${projectName}" created successfully!\n`);
+  console.log("🚀 Next Steps:");
+  console.log(`  1️⃣ cd ${projectName}`);
+  console.log("  2️⃣ Set up your `.env` file");
+  console.log("  3️⃣ Generate an AUTH_SECRET using: `npx auth`");
+  console.log("  4️⃣ Set up your database and update `DATABASE_URL`");
+  console.log("  5️⃣ Run the project with: `npm run dev`");
+  console.log("\n🎉 Happy coding!\n");
 };
 
 // Handle process termination
