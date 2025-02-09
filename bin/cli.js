@@ -19,7 +19,7 @@ const rimraf = require("rimraf");
 // Function to execute shell commands
 const runCommand = (command) => {
   try {
-    execSync(command, { stdio: "inherit" });
+    execSync(command, { stdio: "inherit", shell: true });
     return true;
   } catch (error) {
     console.error(`❌ Failed to execute: ${command}`);
@@ -92,9 +92,12 @@ const createTemplate = async () => {
     process.exit(1);
   }
 
+  // Navigate to project directory for subsequent commands
+  process.chdir(projectPath);
+
   // Install dependencies
   console.log("📦 Installing dependencies...");
-  if (!runCommand(`cd ${projectName} && npm install`)) {
+  if (!runCommand("npm install")) {
     cleanup(projectPath);
     process.exit(1);
   }
@@ -109,9 +112,7 @@ const createTemplate = async () => {
 
   // Initialize fresh Git repo
   console.log("🌱 Initializing fresh Git repository...");
-  runCommand(
-    `cd ${projectName} && git init && git add . && git commit -m "Initial commit"`
-  );
+  runCommand('git init && git add . && git commit -m "Initial commit"');
 
   console.log(`\n✅ Project "${projectName}" created successfully!\n`);
   console.log("🚀 Next Steps:");
