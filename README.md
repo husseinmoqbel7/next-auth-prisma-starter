@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Auth Prisma Starter CLI
 
-## Getting Started
+A command-line tool to quickly scaffold a Next.js project with authentication, Prisma, and email functionality pre-configured.
 
-First, run the development server:
+## Features
+
+- 🔐 Authentication ready with NextAuth.js
+- 📨 Email functionality configured with Resend
+- 🔑 OAuth support for Google and GitHub
+- 🗃️ Database integration with Prisma
+- 🎨 Styled with Tailwind CSS
+- 🚀 Quick setup process
+- ⚡ Performance optimized
+- 📱 Fully responsive
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (version 16.x or higher)
+- npm or yarn
+- Git
+
+## Installation
+
+Run directly using npx:
+
+```bash
+npx @husseinmoqbel7/create-next-auth-starter my-project-name
+```
+
+## Usage
+
+1. Create a new project:
+
+```bash
+npx @husseinmoqbel7/create-next-auth-starter my-project-name
+```
+
+2. Follow the setup steps:
+
+```bash
+cd my-project-name
+```
+
+3. Configure your environment variables in `.env`:
+
+   - Generate AUTH_SECRET using `npx auth`
+   - Set up your database URL
+   - Configure OAuth credentials (Google, GitHub)
+   - Add Resend API key and email
+
+4. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env` file in your project root and add the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=""
+# Auth Secret from `npx auth`
+AUTH_SECRET=""
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+# Github OAuth Credentials
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
+# Resend API Key
+RESEND_API_KEY=""
+# Next.js App URL
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+# Resend Email
+RESEND_EMAIL=""
+```
 
-## Learn More
+## Configuration Guide
 
-To learn more about Next.js, take a look at the following resources:
+### Database Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a database for your project
+2. Update `DATABASE_URL` in `.env`
+3. Run migrations: `npx prisma migrate dev`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Authentication Setup
 
-## Deploy on Vercel
+1. Generate AUTH_SECRET:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx auth
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Set up Google OAuth:
+
+   - Go to [Google Cloud Console](https://console.cloud.google.com)
+   - Create a new project
+   - Enable OAuth 2.0
+   - Add credentials to `.env`
+
+3. Set up GitHub OAuth:
+   - Go to GitHub Settings > Developer Settings > OAuth Apps
+   - Create a new OAuth App
+   - Add credentials to `.env`
+
+### Email Setup
+
+1. Create an account at [Resend](https://resend.com)
+2. Get your API key
+3. Update RESEND_API_KEY and RESEND_EMAIL in `.env`
+
+## Project Structure
+
+```
+my-project/
+├── app/
+│   ├── api/
+│   ├── auth/
+│   └── ...
+├── components/
+├── lib/
+├── prisma/
+├── public/
+├── .env
+├── .env.example
+└── package.json
+```
+
+## Features In Detail
+
+### Authentication
+
+- Email/Password authentication
+- OAuth providers (Google, GitHub)
+- Protected routes
+- Session management
+- Password reset functionality
+
+### Database
+
+- Prisma ORM integration
+- User model pre-configured
+- Easy-to-extend schema
+- Automatic migrations
+
+### Email
+
+- Transactional email support
+- Email templates
+- Password reset emails
+- Welcome emails
+
+## Contributing
+
+We welcome contributions! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you find this helpful, please give it a ⭐️ on GitHub!
+
+## Acknowledgments
+
+- [Next.js](https://nextjs.org)
+- [NextAuth.js](https://next-auth.js.org)
+- [Prisma](https://prisma.io)
+- [Resend](https://resend.com)
+- [Tailwind CSS](https://tailwindcss.com)

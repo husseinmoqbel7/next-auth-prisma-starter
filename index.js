@@ -27,6 +27,36 @@ ensureDependencies();
 
 const rimraf = require("rimraf");
 
+// Create .env file with template
+const createEnvFile = (projectPath) => {
+  const envTemplate = `DATABASE_URL=""
+# Auth Secret from \`npx auth\`
+AUTH_SECRET=""
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+# Github OAuth Credentials
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
+# Resend API Key
+RESEND_API_KEY=""
+# Next.js App URL
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+# Resend Email
+RESEND_EMAIL=""
+`;
+
+  try {
+    fs.writeFileSync(path.join(projectPath, ".env"), envTemplate);
+    // Also create .env.example with the same template
+    fs.writeFileSync(path.join(projectPath, ".env.example"), envTemplate);
+    console.log(chalk.green("✅ Created .env and .env.example files"));
+  } catch (error) {
+    console.error(chalk.red("❌ Failed to create .env files:", error.message));
+    throw error;
+  }
+};
+
 // Function to execute shell commands
 const runCommand = (command) => {
   try {
@@ -126,6 +156,15 @@ const createTemplate = async () => {
   console.log(chalk.cyan("📝 Updating package.json..."));
   updatePackageJson(projectPath, projectName);
 
+  // Create .env files
+  console.log(chalk.cyan("📄 Creating environment files..."));
+  try {
+    createEnvFile(projectPath);
+  } catch (error) {
+    cleanup(projectPath);
+    process.exit(1);
+  }
+
   // Install dependencies
   console.log(chalk.cyan("📦 Installing dependencies..."));
   if (!runCommand("npm install")) {
@@ -146,12 +185,16 @@ const createTemplate = async () => {
   );
   console.log(chalk.cyan("🚀 Next Steps:"));
   console.log(chalk.yellow(`  1️⃣ cd ${projectName}`));
-  console.log(chalk.yellow("  2️⃣ Set up your .env file"));
+  console.log(chalk.yellow("  2️⃣ Update your .env file with your credentials"));
   console.log(chalk.yellow("  3️⃣ Generate an AUTH_SECRET using: npx auth"));
   console.log(
     chalk.yellow("  4️⃣ Set up your database and update DATABASE_URL")
   );
-  console.log(chalk.yellow("  5️⃣ Run the project with: npm run dev"));
+  console.log(chalk.yellow("  5️⃣ Get your Resend API key from resend.com"));
+  console.log(
+    chalk.yellow("  6️⃣ Update RESEND_API_KEY and RESEND_EMAIL in .env")
+  );
+  console.log(chalk.yellow("  7️⃣ Run the project with: npm run dev"));
   console.log(chalk.green("\n🎉 Happy coding!\n"));
 };
 
